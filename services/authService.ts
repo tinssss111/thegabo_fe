@@ -15,6 +15,12 @@ export const authService = {
       if (token) {
         localStorage.setItem("authToken", token);
         localStorage.setItem("user", JSON.stringify(user));
+
+        // Also set cookies for middleware
+        if (typeof document !== "undefined") {
+          document.cookie = `authToken=${token}; path=/; max-age=86400`;
+          document.cookie = `user=${encodeURIComponent(JSON.stringify(user))}; path=/; max-age=86400`;
+        }
       }
     }
 
@@ -32,6 +38,12 @@ export const authService = {
       if (token) {
         localStorage.setItem("authToken", token);
         localStorage.setItem("user", JSON.stringify(user));
+
+        // Also set cookies for middleware
+        if (typeof document !== "undefined") {
+          document.cookie = `authToken=${token}; path=/; max-age=86400`;
+          document.cookie = `user=${encodeURIComponent(JSON.stringify(user))}; path=/; max-age=86400`;
+        }
       }
     }
 
@@ -42,6 +54,12 @@ export const authService = {
     if (typeof window !== "undefined") {
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
+
+      // Also remove cookies
+      if (typeof document !== "undefined") {
+        document.cookie = "authToken=; path=/; max-age=0";
+        document.cookie = "user=; path=/; max-age=0";
+      }
     }
   },
 

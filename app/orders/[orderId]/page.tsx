@@ -239,7 +239,7 @@ export default function OrderDetailPage() {
                       <div className="flex items-start gap-2 text-sm text-gray-600 mt-1">
                         <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
                         <span className="line-clamp-2">
-                          {order.deliveryAddress || user?.addresses}
+                          {order.deliveryAddress || user?.addresses?.text}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
@@ -304,7 +304,7 @@ export default function OrderDetailPage() {
                               (sum, opt) => sum + opt.price,
                               0,
                             ) || 0) *
-                              item.quantity
+                            item.quantity
                           ).toLocaleString()}
                           đ
                         </p>
@@ -397,13 +397,12 @@ export default function OrderDetailPage() {
                     </div>
                     <div className="ml-auto">
                       <span
-                        className={`rounded-sm text-md font-bold uppercase ${
-                          order.paymentStatus === "paid"
-                            ? "text-green-700"
-                            : order.paymentStatus === "pending"
-                              ? "text-yellow-700"
-                              : "text-red-700"
-                        }`}
+                        className={`rounded-sm text-md font-bold uppercase ${order.paymentStatus === "paid"
+                          ? "text-green-700"
+                          : order.paymentStatus === "pending"
+                            ? "text-yellow-700"
+                            : "text-red-700"
+                          }`}
                       >
                         {orderService.formatPaymentStatus(order.paymentStatus)}
                       </span>

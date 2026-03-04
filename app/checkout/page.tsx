@@ -22,6 +22,12 @@ import {
   CreditCard,
   ShieldCheck,
 } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const AddressMapModal = dynamic(
+  () => import("@/components/ui/AddressMapModal"),
+  { ssr: false },
+);
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -29,8 +35,17 @@ export default function CheckoutPage() {
   const { cart, isLoading: cartLoading } = useCart();
 
   const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [customerCoordinates, setCustomerCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [calculatedFee, setCalculatedFee] = useState<number>(0);
+  const [distance, setDistance] = useState<number | null>(null);
+  const [isCalculatingFee, setIsCalculatingFee] = useState(false);
+  const [hasFeeError, setHasFeeError] = useState(false);
   const [note, setNote] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isMapOpen, setIsMapOpen] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -43,8 +58,108 @@ export default function CheckoutPage() {
   }, [authLoading, isAuthenticated, router]);
 
   useEffect(() => {
-    if (user?.addresses) setDeliveryAddress(user.addresses);
+    if (user) {
+      if (typeof user.addresses === "string") {
+        setDeliveryAddress(user.addresses);
+      } else if (user.addresses && user.addresses.text) {
+        setDeliveryAddress(user.addresses.text);
+      }
+
+      let lat = user.latitude;
+      let lng = user.longitude;
+      if (!lat && user.addresses && user.addresses.latitude) {
+        lat = user.addresses.latitude;
+        lng = user.addresses.longitude;
+      }
+
+      if (lat && lng) {
+        setCustomerCoordinates({ lat, lng });
+        if (
+          !deliveryAddress ||
+          deliveryAddress.includes("Vị trí:") ||
+          deliveryAddress.includes("Tọa độ:")
+        ) {
+          setDeliveryAddress("Đang tải địa chỉ...");
+          fetch(`https://photon.komoot.io/reverse?lon=${lng}&lat=${lat}`)
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.features && data.features.length > 0) {
+                const props = data.features[0].properties;
+                const nameParts = [
+                  props.name,
+                  props.street,
+                  props.district,
+                  props.city,
+                  props.state,
+                ].filter(Boolean);
+                const formatted = Array.from(new Set(nameParts)).join(", ");
+                setDeliveryAddress(
+                  formatted || `Vị trí: ${lat.toFixed(5)}, ${lng.toFixed(5)}`,
+                );
+              } else {
+                setDeliveryAddress(
+                  `Vị trí: ${lat.toFixed(5)}, ${lng.toFixed(5)}`,
+                );
+              }
+            })
+            .catch(() =>
+              setDeliveryAddress(
+                `Vị trí: ${lat.toFixed(5)}, ${lng.toFixed(5)}`,
+              ),
+            );
+        }
+      }
+    }
   }, [user]);
+
+  useEffect(() => {
+    if (customerCoordinates && cart?.restaurant?._id) {
+      const fetchFee = async () => {
+        setIsCalculatingFee(true);
+        try {
+          const result = await orderService.calculateFee({
+            restaurantId: cart.restaurant._id,
+            customerCoordinates,
+          });
+          setCalculatedFee(result.data?.fee || result.fee || 0); // handle variations of response structure
+          setDistance(result.data?.distance || result.distance || null);
+          setHasFeeError(false);
+        } catch (error: any) {
+          console.error("Fee calculation error:", error);
+          setCalculatedFee(0);
+          setDistance(null);
+          setHasFeeError(true);
+
+          let errorMessage =
+            "Không thể tính phí giao hàng. Vui lòng kiểm tra lại địa chỉ.";
+
+          // Check if error message indicates service area issue
+          if (
+            error.response?.data?.message?.includes("out of service area") ||
+            error.response?.data?.message?.includes("ngoài phạm vi") ||
+            error.response?.status === 400
+          ) {
+            errorMessage =
+              "Địa chỉ này nằm ngoài phạm vi giao hàng của chúng tôi. Vui lòng chọn địa chỉ khác.";
+          } else if (error.response?.data?.message) {
+            errorMessage = error.response.data.message;
+          }
+
+          setToast({
+            message: errorMessage,
+            type: "error",
+          });
+        } finally {
+          setIsCalculatingFee(false);
+        }
+      };
+
+      const timerId = setTimeout(() => {
+        fetchFee();
+      }, 500);
+      return () => clearTimeout(timerId);
+    }
+  }, [customerCoordinates, cart?.restaurant?._id]);
 
   if (authLoading || !isAuthenticated) return null;
 
@@ -91,19 +206,22 @@ export default function CheckoutPage() {
     0,
   );
 
-  const getDeliveryFee = (amount: number) => {
-    if (amount < 100000) return 20000;
-    if (amount <= 200000) return 15000;
-    return 0;
-  };
-
-  const deliveryFee = getDeliveryFee(subtotal);
+  const deliveryFee = calculatedFee;
   const total = subtotal + deliveryFee;
 
   const handleCheckout = async () => {
     if (!deliveryAddress || deliveryAddress.length < 5) {
       setToast({
-        message: "Vui lòng nhập địa chỉ giao hàng (tối thiểu 5 ký tự)",
+        message:
+          "Vui lòng nhập địa chỉ giao hàng. Bạn có thể sử dụng bản đồ để chọn chính xác tọa độ.",
+        type: "error",
+      });
+      return;
+    }
+
+    if (!customerCoordinates) {
+      setToast({
+        message: "Vui lòng chọn vị trí giao hàng trên bản đồ.",
         type: "error",
       });
       return;
@@ -122,6 +240,7 @@ export default function CheckoutPage() {
       const orderResponse = await orderService.createOrder({
         deliveryAddress,
         note: note || undefined,
+        customerCoordinates,
       });
 
       if (!orderResponse.success || !orderResponse.data)
@@ -153,8 +272,27 @@ export default function CheckoutPage() {
 
       window.location.href = paymentResponse.data.checkoutUrl;
     } catch (error: any) {
+      let errorMessage = error.message || "Đã có lỗi xảy ra";
+
+      // Check if restaurant is closed (400 status)
+      if (error.response?.status === 400) {
+        const backendMessage = error.response?.data?.message || "";
+        if (
+          backendMessage.includes("closed") ||
+          backendMessage.includes("đóng") ||
+          backendMessage.includes("đóng cửa") ||
+          backendMessage.includes("không hoạt động")
+        ) {
+          errorMessage = "Nhà hàng đã đóng cửa. Vui lòng chọn nhà hàng khác.";
+        } else {
+          errorMessage =
+            backendMessage ||
+            "Yêu cầu không hợp lệ. Vui lòng kiểm tra lại thông tin.";
+        }
+      }
+
       setToast({
-        message: error.message || "Đã có lỗi xảy ra",
+        message: errorMessage,
         type: "error",
       });
       setIsProcessing(false);
@@ -228,11 +366,18 @@ export default function CheckoutPage() {
                   <span>{subtotal.toLocaleString()}đ</span>
                 </div>
                 <div className="flex justify-between text-sm font-medium text-gray-500">
-                  <span>Phí giao hàng</span>
                   <span>
-                    {deliveryFee === 0
-                      ? "Miễn phí"
-                      : `${deliveryFee.toLocaleString()}đ`}
+                    Phí giao hàng{" "}
+                    {distance !== null && `(${distance.toFixed(1)} km)`}
+                  </span>
+                  <span>
+                    {isCalculatingFee
+                      ? "Đang tính..."
+                      : deliveryFee === 0 && customerCoordinates
+                        ? "Miễn phí"
+                        : !customerCoordinates
+                          ? "Chọn địa chỉ"
+                          : `${deliveryFee.toLocaleString()}đ`}
                   </span>
                 </div>
                 <div className="flex justify-between pt-2">
@@ -244,19 +389,34 @@ export default function CheckoutPage() {
               </div>
             </section>
 
-            {/* Địa chỉ */}
             <section>
               <h3 className="text-sm font-medium text-gray-400 mb-1 border-t border-dashed pt-6">
-                Địa chỉ giao hàng
+                Địa chỉ giao hàng (Hiển thị trên bản đồ)
               </h3>
-              <div className="relative">
-                <MapPin className="absolute top-4 left-4 w-5 h-5 text-gray-300" />
-                <textarea
-                  value={deliveryAddress}
-                  onChange={(e) => setDeliveryAddress(e.target.value)}
-                  className="w-full pl-12 py-4 bg-gray-50 outline-none min-h-25"
-                  placeholder="Số nhà, tên đường..."
-                />
+
+              <div className="space-y-4">
+                <button
+                  type="button"
+                  onClick={() => setIsMapOpen(true)}
+                  className="w-full flex items-center justify-between px-3 py-4 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE722D] focus:border-transparent text-left bg-white text-gray-700 hover:bg-gray-50 transition shadow-sm"
+                >
+                  {deliveryAddress ? (
+                    <span className="truncate flex-1">{deliveryAddress}</span>
+                  ) : (
+                    <span className="text-gray-500 flex-1">
+                      Chọn vị trí bản đồ...
+                    </span>
+                  )}
+                  <MapPin className="w-5 h-5 text-[#FE722D] shrink-0 ml-2" />
+                </button>
+
+                {customerCoordinates && (
+                  <div className="text-xs text-green-600 mt-2 font-medium flex items-center gap-1">
+                    Báo cáo tọa độ: ({customerCoordinates.lat.toFixed(6)},{" "}
+                    {customerCoordinates.lng.toFixed(6)})
+                    {isCalculatingFee && <Loader size={12} />}
+                  </div>
+                )}
               </div>
             </section>
 
@@ -279,8 +439,8 @@ export default function CheckoutPage() {
             {/* Thanh toán */}
             <button
               onClick={handleCheckout}
-              disabled={isProcessing || !deliveryAddress}
-              className="w-full py-5 bg-[#FE722D] text-white font-medium hover:bg-[#e05d1b] transition-colors uppercase flex justify-center gap-2"
+              disabled={isProcessing || !deliveryAddress || hasFeeError}
+              className="w-full py-5 bg-[#FE722D] text-white font-medium hover:bg-[#e05d1b] transition-colors uppercase flex justify-center gap-2 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed"
             >
               {isProcessing ? (
                 <Loader size={20} color="white" />
@@ -300,7 +460,18 @@ export default function CheckoutPage() {
         </div>
       </main>
 
-      <Footer />
+      <AddressMapModal
+        isOpen={isMapOpen}
+        onClose={() => setIsMapOpen(false)}
+        initialPosition={customerCoordinates}
+        onConfirm={(loc) => {
+          setDeliveryAddress(
+            loc.displayName || `Lat: ${loc.lat}, Lng: ${loc.lng}`,
+          );
+          setCustomerCoordinates({ lat: loc.lat, lng: loc.lng });
+        }}
+      />
+
       {toast && (
         <Toast
           message={toast.message}

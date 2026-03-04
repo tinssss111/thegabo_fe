@@ -11,7 +11,6 @@ import { cartService } from "@/services/cartService";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ConfirmModal from "@/components/ui/ConfirmModal";
-import Loader from "@/components/ui/Loader";
 import { Trash2, Plus, Minus, ShoppingBag, ChevronLeft } from "lucide-react";
 import LoadingOverlay from "@/components/ui/LoadingOverlay";
 
@@ -103,6 +102,12 @@ export default function CartPage() {
               Thêm một số món ăn ngon miệng để bắt đầu!
             </p>
             <Link
+              href="/profile"
+              className="inline-block px-6 py-3 bg-gray-400 text-white hover:bg-gray-300 transition-colors"
+            >
+              Theo dõi đơn hàng
+            </Link>
+            <Link
               href="/"
               className="inline-block px-6 py-3 bg-[#FE722D] text-white hover:bg-[#E65C1A] transition-colors"
             >
@@ -117,7 +122,7 @@ export default function CartPage() {
 
   const totalAmount = cart.items.reduce(
     (sum, item) => sum + cartService.calculateItemTotal(item),
-    0
+    0,
   );
 
   return (
@@ -127,7 +132,7 @@ export default function CartPage() {
       <main className="flex-1 bg-gray-50 py-6 md:py-12 px-4">
         <div className="max-w-5xl mx-auto">
           {/* Header ngoài box */}
-          <div className="w-full max-w-xl mb-4 flex items-center gap-2 sticky top-[80px] md:top-20 bg-gray-50/80 backdrop-blur z-10 px-1 py-2">
+          <div className="w-full max-w-xl mb-4 flex items-center gap-2 sticky top-20 md:top-20 bg-gray-50/80 backdrop-blur z-10 px-1 py-2">
             <button
               onClick={() => router.back()}
               className="p-2 rounded-full hover:bg-gray-200 transition-colors"
@@ -159,8 +164,11 @@ export default function CartPage() {
               return (
                 <div
                   key={item._id}
-                  className={`flex flex-col md:grid md:grid-cols-12 gap-4 px-4 py-4 md:px-6 md:py-6 items-center ${index !== cart.items.length - 1 ? "border-b border-gray-200" : ""
-                    }`}
+                  className={`flex flex-col md:grid md:grid-cols-12 gap-4 px-4 py-4 md:px-6 md:py-6 items-center ${
+                    index !== cart.items.length - 1
+                      ? "border-b border-gray-200"
+                      : ""
+                  }`}
                 >
                   {/* Product Info & Price (Mobile Layout) */}
                   <div className="w-full md:col-span-5 flex items-start md:items-center gap-4">
@@ -183,15 +191,17 @@ export default function CartPage() {
                         </button>
                       </div>
 
-                      {item.selectedOptions && item.selectedOptions.length > 0 && (
-                        <div className="text-[10px] md:text-xs text-gray-500 space-y-0.5">
-                          {item.selectedOptions.map((addon, idx) => (
-                            <div key={addon._id || idx}>
-                              + {addon.addonName} (+{addon.price.toLocaleString()}đ)
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                      {item.selectedOptions &&
+                        item.selectedOptions.length > 0 && (
+                          <div className="text-[10px] md:text-xs text-gray-500 space-y-0.5">
+                            {item.selectedOptions.map((addon, idx) => (
+                              <div key={addon._id || idx}>
+                                + {addon.addonName} (+
+                                {addon.price.toLocaleString()}đ)
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       {/* Giá đơn vị hiển thị trên mobile */}
                       <p className="md:hidden text-sm font-semibold text-gray-600 mt-1">
                         {itemPrice.toLocaleString()}đ
@@ -210,7 +220,9 @@ export default function CartPage() {
                   <div className="w-full md:col-span-2 flex items-center justify-between md:justify-center mt-2 md:mt-0">
                     <div className="flex items-center border border-gray-300 rounded bg-white">
                       <button
-                        onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
+                        onClick={() =>
+                          handleQuantityChange(item._id, item.quantity - 1)
+                        }
                         disabled={item.quantity <= 1}
                         className="px-2 md:px-3 py-1 md:py-2 hover:bg-gray-100 disabled:opacity-30"
                       >
@@ -220,7 +232,9 @@ export default function CartPage() {
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
+                        onClick={() =>
+                          handleQuantityChange(item._id, item.quantity + 1)
+                        }
                         disabled={item.quantity >= 20}
                         className="px-2 md:px-3 py-1 md:py-2 hover:bg-gray-100 disabled:opacity-30"
                       >

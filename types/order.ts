@@ -61,7 +61,11 @@ export interface Order {
 }
 
 export interface CreateOrderRequest {
-  deliveryAddress: string;
+  deliveryAddress?: string;
+  customerCoordinates: {
+    lat: number;
+    lng: number;
+  };
   note?: string;
 }
 

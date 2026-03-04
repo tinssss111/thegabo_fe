@@ -25,7 +25,17 @@ export default function LoginPage() {
 
     try {
       await login(formData.email, formData.password);
-      router.push("/");
+      // Wait a bit for state to update
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Check user role and redirect accordingly
+      const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+      console.log("User from cookie:", currentUser.role);
+      if (currentUser.role === 1) {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } catch (err: any) {
       setError(err.message || "Login failed. Please try again.");
     } finally {

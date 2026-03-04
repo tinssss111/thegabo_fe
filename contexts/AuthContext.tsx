@@ -15,7 +15,12 @@ interface AuthContextType {
     password: string;
     fullName: string;
     phoneNumber: string;
-    addresses: string;
+    addresses?: {
+      latitude: number;
+      longitude: number;
+    };
+    latitude?: number;
+    longitude?: number;
   }) => Promise<void>;
   logout: () => void;
 }
@@ -57,7 +62,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     password: string;
     fullName: string;
     phoneNumber: string;
-    addresses: string;
+    addresses?: {
+      latitude: number;
+      longitude: number;
+    };
+    latitude?: number;
+    longitude?: number;
   }) => {
     try {
       const response = await authService.register(data);

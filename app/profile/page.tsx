@@ -29,8 +29,9 @@ export default function ProfilePage() {
   const [formData, setFormData] = useState({
     fullName: user?.fullName || "",
     phoneNumber: user?.phoneNumber || "",
-    addresses: user?.addresses || "",
+    addresses: "",
   });
+  const [addressDisplay, setAddressDisplay] = useState("Đang tải địa chỉ...");
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoadingOrders, setIsLoadingOrders] = useState(true);
   const [filter, setFilter] = useState<string>("all");
@@ -51,8 +52,48 @@ export default function ProfilePage() {
       setFormData({
         fullName: user.fullName || "",
         phoneNumber: user.phoneNumber || "",
-        addresses: user.addresses || "",
+        addresses: typeof user.addresses === "string" ? user.addresses : "",
       });
+
+      // Handle coordinate extraction
+      let lat: number | null = user.latitude || null;
+      let lng: number | null = user.longitude || null;
+
+      if (!lat && user.addresses && typeof user.addresses === "object") {
+        lat = user.addresses.latitude;
+        lng = user.addresses.longitude;
+      }
+
+      if (lat && lng) {
+        // Perform reverse geocoding to human readable string
+        fetch(`https://photon.komoot.io/reverse?lon=${lng}&lat=${lat}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.features && data.features.length > 0) {
+              const props = data.features[0].properties;
+              const nameParts = [
+                props.name,
+                props.street,
+                props.district,
+                props.city,
+                props.state,
+              ].filter(Boolean);
+              const formatted = Array.from(new Set(nameParts)).join(", ");
+              setAddressDisplay(
+                formatted || `Tọa độ: ${lat.toFixed(5)}, ${lng.toFixed(5)}`,
+              );
+            } else {
+              setAddressDisplay(`Tọa độ: ${lat.toFixed(5)}, ${lng.toFixed(5)}`);
+            }
+          })
+          .catch(() =>
+            setAddressDisplay(`Tọa độ: ${lat.toFixed(5)}, ${lng.toFixed(5)}`),
+          );
+      } else if (typeof user.addresses === "string") {
+        setAddressDisplay(user.addresses || "Chưa cập nhật");
+      } else {
+        setAddressDisplay("Chưa cập nhật");
+      }
     }
   }, [user]);
 
@@ -200,29 +241,6 @@ export default function ProfilePage() {
                     <h3 className="text-md font-medium text-gray-400">
                       Thông tin cá nhân
                     </h3>
-                    {!isEditing ? (
-                      <button
-                        onClick={() => setIsEditing(true)}
-                        className="p-1.5 text-[#FE722D] hover:bg-orange-50 rounded-full transition-all"
-                      >
-                        <Edit2 className="w-4 h-4" />
-                      </button>
-                    ) : (
-                      <div className="flex gap-2">
-                        <button
-                          onClick={handleSave}
-                          className="p-1.5 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all"
-                        >
-                          <Save className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={handleCancel}
-                          className="p-1.5 bg-gray-400 text-white rounded-full hover:bg-gray-500 transition-all"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    )}
                   </div>
 
                   <div className="space-y-4">
@@ -267,14 +285,19 @@ export default function ProfilePage() {
                       {isEditing ? (
                         <textarea
                           name="addresses"
-                          value={formData.addresses}
+                          value={
+                            typeof formData.addresses === "string"
+                              ? formData.addresses
+                              : ""
+                          }
                           onChange={handleChange}
                           rows={2}
                           className="w-full bg-white p-2 text-sm border border-gray-200 rounded outline-none focus:border-[#FE722D] resize-none"
+                          placeholder="Địa chỉ mới (hoặc ghim trên bản đồ)..."
                         />
                       ) : (
                         <p className="text-sm font-medium text-gray-800 leading-relaxed">
-                          {user?.addresses || "Chưa cập nhật"}
+                          {addressDisplay}
                         </p>
                       )}
                     </div>

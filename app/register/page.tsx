@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import Loader from "@/components/ui/Loader";
+import { MapPin } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const AddressMapModal = dynamic(() => import("@/components/ui/AddressMapModal"), { ssr: false });
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -18,17 +22,37 @@ export default function RegisterPage() {
     fullName: "",
     phoneNumber: "",
     addresses: "",
+    latitude: 0,
+    longitude: 0,
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!formData.latitude || !formData.longitude) {
+      setError("Vui lòng chọn địa chỉ giao dịch trên bản đồ để lưu tọa độ.");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      await register(formData);
+      await register({
+        email: formData.email,
+        password: formData.password,
+        fullName: formData.fullName,
+        phoneNumber: formData.phoneNumber,
+        addresses: {
+          latitude: formData.latitude,
+          longitude: formData.longitude,
+        },
+        latitude: formData.latitude,
+        longitude: formData.longitude,
+      });
       router.push("/");
     } catch (err: any) {
       setError(err.message || "Registration failed. Please try again.");
@@ -158,21 +182,27 @@ export default function RegisterPage() {
 
             <div>
               <label
-                htmlFor="addresses"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Địa chỉ
+                Địa chỉ (Hiển thị trên bản đồ)
               </label>
-              <textarea
-                id="addresses"
-                name="addresses"
-                rows={3}
-                required
-                value={formData.addresses}
-                onChange={handleChange}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#FE722D] focus:border-transparent resize-none"
-                placeholder="Nhập địa chỉ"
-              />
+
+              <button
+                type="button"
+                onClick={() => setIsMapOpen(true)}
+                className="w-full flex items-center justify-between px-3 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#FE722D] focus:border-transparent text-left bg-white text-gray-700 hover:bg-gray-50 transition"
+              >
+                {formData.addresses ? (
+                  <span className="truncate">{formData.addresses}</span>
+                ) : (
+                  <span className="text-gray-500">Chọn vị trí bản đồ...</span>
+                )}
+                <MapPin className="w-5 h-5 text-gray-400 shrink-0 ml-2" />
+              </button>
+
+              {formData.latitude !== 0 && (
+                <p className="text-xs text-green-600 mt-1 font-medium">Báo cáo tọa độ: ({formData.latitude.toFixed(6)}, {formData.longitude.toFixed(6)})</p>
+              )}
             </div>
           </div>
 
@@ -197,6 +227,14 @@ export default function RegisterPage() {
             </p>
           </div>
         </form>
+        <AddressMapModal
+          isOpen={isMapOpen}
+          onClose={() => setIsMapOpen(false)}
+          initialPosition={formData.latitude ? { lat: formData.latitude, lng: formData.longitude } : null}
+          onConfirm={(loc) => {
+            setFormData({ ...formData, addresses: loc.displayName || `Lat: ${loc.lat}, Lng: ${loc.lng}`, latitude: loc.lat, longitude: loc.lng });
+          }}
+        />
       </div>
     </div>
   );

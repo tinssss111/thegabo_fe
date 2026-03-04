@@ -3,9 +3,14 @@ export interface User {
   email: string;
   fullName: string;
   phoneNumber: string;
-  addresses: string;
+  addresses: any;
+  latitude?: number;
+  longitude?: number;
   avatar?: string;
-  role?: string;
+  role?: number;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface LoginRequest {
@@ -18,7 +23,12 @@ export interface RegisterRequest {
   password: string;
   fullName: string;
   phoneNumber: string;
-  addresses: string;
+  addresses?: {
+    latitude: number;
+    longitude: number;
+  };
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface AuthResponse {
