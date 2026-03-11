@@ -190,7 +190,7 @@ export default function CheckoutPage() {
             </p>
             <button
               onClick={() => router.push("/")}
-              className="px-6 py-3 bg-[#FE722D] text-white hover:bg-[#e05d1b] transition shadow-lg shadow-orange-200"
+              className="px-6 py-3 bg-[#730003] text-white hover:bg-[#a50006] transition shadow-lg shadow-orange-200"
             >
               Quay lại trang chủ
             </button>
@@ -341,7 +341,7 @@ export default function CheckoutPage() {
                           {item.selectedOptions.map((opt, i) => (
                             <span
                               key={i}
-                              className="text-sm text-[#FE722D] font-medium"
+                              className="text-sm text-[#730003] font-medium"
                             >
                               + {opt.addonName}({opt.price.toLocaleString()}đ)
                             </span>
@@ -382,7 +382,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between pt-2">
                   <span className="text-xl font-bold">Tổng cộng</span>
-                  <span className="text-3xl font-bold text-[#FE722D]">
+                  <span className="text-3xl font-bold text-[#730003]">
                     {total.toLocaleString()}đ
                   </span>
                 </div>
@@ -398,7 +398,7 @@ export default function CheckoutPage() {
                 <button
                   type="button"
                   onClick={() => setIsMapOpen(true)}
-                  className="w-full flex items-center justify-between px-3 py-4 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE722D] focus:border-transparent text-left bg-white text-gray-700 hover:bg-gray-50 transition shadow-sm"
+                  className="w-full flex items-center justify-between px-3 py-4 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#730003] focus:border-transparent text-left bg-white text-gray-700 hover:bg-gray-50 transition shadow-sm"
                 >
                   {deliveryAddress ? (
                     <span className="truncate flex-1">{deliveryAddress}</span>
@@ -407,16 +407,8 @@ export default function CheckoutPage() {
                       Chọn vị trí bản đồ...
                     </span>
                   )}
-                  <MapPin className="w-5 h-5 text-[#FE722D] shrink-0 ml-2" />
+                  <MapPin className="w-5 h-5 text-[#730003] shrink-0 ml-2" />
                 </button>
-
-                {customerCoordinates && (
-                  <div className="text-xs text-green-600 mt-2 font-medium flex items-center gap-1">
-                    Báo cáo tọa độ: ({customerCoordinates.lat.toFixed(6)},{" "}
-                    {customerCoordinates.lng.toFixed(6)})
-                    {isCalculatingFee && <Loader size={12} />}
-                  </div>
-                )}
               </div>
             </section>
 
@@ -440,15 +432,12 @@ export default function CheckoutPage() {
             <button
               onClick={handleCheckout}
               disabled={isProcessing || !deliveryAddress || hasFeeError}
-              className="w-full py-5 bg-[#FE722D] text-white font-medium hover:bg-[#e05d1b] transition-colors uppercase flex justify-center gap-2 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed"
+              className="w-full py-5 bg-[#730003] text-white font-medium hover:bg-[#a30005] transition-colors uppercase flex justify-center gap-2 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed"
             >
               {isProcessing ? (
                 <Loader size={20} color="white" />
               ) : (
-                <>
-                  <CreditCard className="w-5 h-5" />
-                  Xác nhận thanh toán
-                </>
+                <>Xác nhận thanh toán</>
               )}
             </button>
 

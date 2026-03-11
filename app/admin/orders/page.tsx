@@ -736,7 +736,7 @@ export default function OrdersManagement() {
                         <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">
                           Tổng tiền
                         </p>
-                        <p className="text-lg font-medium text-[#FE722D]">
+                        <p className="text-lg font-medium text-[#730003]">
                           {fullOrderDetail.total.toLocaleString()}₫
                         </p>
                       </div>
@@ -767,7 +767,7 @@ export default function OrdersManagement() {
                   <div className="border border-gray-100 rounded-lg overflow-hidden">
                     <div className="p-4 border-b border-gray-100 bg-gray-50">
                       <h3 className="font-medium text-gray-900 flex items-center gap-2">
-                        <Truck className="w-5 h-5 text-[#FE722D]" />
+                        <Truck className="w-5 h-5 text-[#730003]" />
                         Hành trình đơn hàng
                       </h3>
                     </div>
@@ -1019,7 +1019,7 @@ export default function OrdersManagement() {
                         <span className="font-semibold text-gray-900">
                           Tổng thanh toán
                         </span>
-                        <span className="text-xl font-bold text-[#FE722D]">
+                        <span className="text-xl font-bold text-[#730003]">
                           {fullOrderDetail.total.toLocaleString()}₫
                         </span>
                       </div>

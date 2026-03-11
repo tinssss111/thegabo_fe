@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
+import { RestaurantProvider } from "@/contexts/RestaurantContext";
 import ClientLayout from "@/components/layout/ClientLayout";
 
 export const metadata: Metadata = {
@@ -27,7 +28,9 @@ export default function RootLayout({
       <body className="antialiased flex flex-col min-h-screen">
         <AuthProvider>
           <CartProvider>
-            <ClientLayout>{children}</ClientLayout>
+            <RestaurantProvider>
+              <ClientLayout>{children}</ClientLayout>
+            </RestaurantProvider>
           </CartProvider>
         </AuthProvider>
       </body>

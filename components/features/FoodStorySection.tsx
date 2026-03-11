@@ -1,10 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-export default function FoodStorySection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+export default function StorySection() {
+  const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -14,92 +14,51 @@ export default function FoodStorySection() {
           setVisible(true);
         }
       },
-      { threshold: 0.25 },
+      { threshold: 0.2 },
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
+
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section ref={sectionRef} className="w-full bg-white overflow-hidden">
-      <div className="grid lg:grid-cols-[1fr_2fr] min-h-150">
-        {/* LEFT PROMO CARD */}
+    <section
+      ref={sectionRef}
+      className="w-full px-4 sm:px-6 md:px-30 bg-[#730003] text-white overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-0 sm:px-4 grid grid-cols-1 md:grid-cols-2 items-center gap-6 sm:gap-8 md:gap-12">
+        {/* TEXT */}
         <div
-          className={`bg-[#F5F5F5] flex flex-col min-h-150 transition-all duration-800 ease-out
-            ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}
-          `}
+          className={`space-y-4 sm:space-y-6 px-4 sm:px-0 transition-all duration-1000 ease-out ${
+            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
         >
-          {/* TOP HALF */}
-          <div className="flex-1 p-12 lg:p-16 flex flex-col justify-center">
-            <div className="inline-block border border-black bg-[#FFFE95] rounded-full px-6 py-2 mb-8 text-sm">
-              Ưu đãi tháng này
-            </div>
+          <div className="w-12 sm:w-16 h-0.75 bg-[#551B13]" />
 
-            <h2 className="text-3xl lg:text-4xl font-medium leading-tight">
-              Ăn Cơm & Mì
-              <br />
-              Ngon Mỗi Ngày
-              <br />
-              Giảm Đến 30%
-            </h2>
-          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light leading-tight">
+            &quot;Ăn một bữa cơm,
+            <br />
+            <span className="font-bold ">nhớ một mái nhà&quot;</span>
+          </h2>
 
-          {/* BOTTOM HALF */}
-          <div className="relative flex-1 p-8">
-            <Image
-              src="/images/trai.png"
-              alt="Combo cơm mì"
-              fill
-              className="object-cover"
-            />
-          </div>
+          <p className="text-white/70">
+            Không chỉ là một bữa ăn. Đó là cảm giác thân quen của bếp nhà.
+          </p>
         </div>
 
-        {/* RIGHT STORY HERO */}
+        {/* IMAGE */}
         <div
-          className={`relative overflow-hidden transition-all duration-800 ease-out
-            ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"}
-          `}
+          className={`relative flex justify-center mt-8 md:mt-0 transition-all duration-1000 delay-200 ease-out ${
+            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
         >
-          {/* background food image */}
-          <Image
-            src="/images/phai.png"
-            alt="Mì nóng hổi"
-            fill
-            className="object-cover"
+          <div className="absolute w-40 h-40 sm:w-60 sm:h-60 md:w-105 md:h-105 bg-white/10 rounded-full blur-3xl"></div>
+          <img
+            src="/images/section.png"
+            alt="food"
+            className="relative z-10 object-contain w-full h-full"
           />
-
-          {/* content box */}
-          <div className="relative z-10 h-full flex items-center justify-end p-12 lg:p-20">
-            <div
-              className={`bg-[#DDCAB9] p-12 max-w-xl shadow-lg transition-all duration-700 delay-200 ease-out
-                ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"}
-              `}
-            >
-              <div className="inline-block border border-gray-700 rounded-full px-5 py-2 mb-6 text-sm">
-                Khách hàng yêu thích
-              </div>
-
-              <h2 className="text-3xl lg:text-4xl text-gray-900 font-medium leading-snug mb-4">
-                Cơm nóng - Mì tươi
-                <br />
-                Ngon như nhà nấu mỗi ngày!
-              </h2>
-
-              <p className="text-gray-700 mb-8 leading-relaxed">
-                Từ cơm gà, cơm bò mì trộn – tất cả đều được nấu mỗi ngày với
-                nguyên liệu tươi, giao nhanh trong 30 phút.
-              </p>
-
-              <a href="#menu-section">
-                <button className="flex items-center bg-[#FFFE95] gap-3 border border-gray-900 rounded-full px-8 py-3 hover:bg-gray-900 hover:text-white transition">
-                  Đặt món ngay
-                  <span className="text-xl">→</span>
-                </button>
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </section>

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useEffect } from "react";
@@ -121,13 +121,15 @@ export default function AdminLayout({
   return (
     <div className="font-medium">
       {/* Container wrapper just like the image's inner browser window feel bg-[#FAFBF9] */}
-      <div className="w-full max-w-[1440px] h-[90vh] min-h-[827px] overflow-hidden flex relative">
+      <div className="w-full max-w-360 h-[90vh] min-h-206.75 overflow-hidden flex relative">
         {/* Fixed Sidebar */}
-        <aside className="w-[260px] h-full bg-[#F2F3EE] border-r-2 border-gray-200 flex flex-col shrink-0">
-          <div className="px-6 py-8">
-            <h1 className="text-3xl  text-[#113A28] tracking-tight">
-              The Gabo
-            </h1>
+        <aside className="w-65 h-full bg-[#F2F3EE] border-r-2 border-gray-200 flex flex-col shrink-0">
+          <div className="items-center justify-center py-6 flex gap-2">
+            <img
+              src="/images/logo.png"
+              alt="THE GABO"
+              className="w-10 h-10 lg:w-30 lg:h-30"
+            />
           </div>
 
           <div className="px-6 mb-8">
@@ -197,7 +199,7 @@ export default function AdminLayout({
         {/* Content Area flex flex-col */}
         <div className="flex-1 flex flex-col h-full bg-[#F2F3EE] overflow-hidden">
           {/* Header */}
-          <header className="h-[88px] flex shrink-0 items-center justify-between px-10 border-b-2 border-gray-200">
+          <header className="h-22 flex shrink-0 items-center justify-between px-10 border-b-2 border-gray-200">
             <h2 className="text-3xl text-gray-900 tracking-tight">
               Admin Dashboard
             </h2>
@@ -241,14 +243,19 @@ export default function AdminLayout({
 
               <div className="relative group cursor-pointer">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#113A28] rounded-full flex items-center justify-center text-white font-bold shrink-0">
-                    {user?.fullName?.charAt(0) || "U"}
-                  </div>
+                  <img
+                    src={user?.avatar || "/images/default-avatar.png"}
+                    alt="Avatar"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
                   <div>
                     <p className="text-sm font-bold text-gray-900">
                       {user?.fullName}
                     </p>
-                    <p className="text-xs text-gray-500">Online</p>
+                    <div className="flex items-center gap-1">
+                      <div className="p-1 bg-green-500 rounded-full"></div>{" "}
+                      <p className="text-xs text-gray-500">Online</p>
+                    </div>
                   </div>
                   <svg
                     className="w-4 h-4 text-gray-400 ml-2"

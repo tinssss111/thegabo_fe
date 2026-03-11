@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -323,7 +324,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Biểu đồ Recharts thực tế */}
-          <div className="h-[250px] mt-8 w-full">
+          <div className="h-62.5 mt-8 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={chartData}

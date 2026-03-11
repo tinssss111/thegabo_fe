@@ -10,7 +10,10 @@ import Loader from "@/components/ui/Loader";
 import { MapPin } from "lucide-react";
 import dynamic from "next/dynamic";
 
-const AddressMapModal = dynamic(() => import("@/components/ui/AddressMapModal"), { ssr: false });
+const AddressMapModal = dynamic(
+  () => import("@/components/ui/AddressMapModal"),
+  { ssr: false },
+);
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -76,20 +79,17 @@ export default function RegisterPage() {
   }, [authLoading, isAuthenticated, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-[#551B13] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <Link href="/">
           <div className="flex items-center justify-center">
             <img
-              src="/images/thegabo.png"
+              src="/images/logo.png"
               alt=""
-              className="w-16 h-16 lg:w-13 lg:h-13 mr-3"
+              className="w-20 h-20 lg:w-35 lg:h-35 mr-3"
             />
-            <h1 className="text-center text-4xl font-bold text-gray-900 mb-2">
-              THE GABO
-            </h1>
           </div>
-          <h2 className="text-center text-md font-medium text-gray-700 mt-5">
+          <h2 className="text-center text-md font-medium text-white">
             Tạo tài khoản mới
           </h2>
         </Link>
@@ -105,7 +105,7 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="fullName"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-white mb-1"
               >
                 Họ và tên
               </label>
@@ -124,7 +124,7 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-white mb-1"
               >
                 Email
               </label>
@@ -144,7 +144,7 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-white mb-1"
               >
                 Mật khẩu
               </label>
@@ -164,7 +164,7 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="phoneNumber"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-white mb-1"
               >
                 Số điện thoại
               </label>
@@ -181,9 +181,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label className="block text-sm font-medium text-white mb-1">
                 Địa chỉ (Hiển thị trên bản đồ)
               </label>
 
@@ -201,7 +199,10 @@ export default function RegisterPage() {
               </button>
 
               {formData.latitude !== 0 && (
-                <p className="text-xs text-green-600 mt-1 font-medium">Báo cáo tọa độ: ({formData.latitude.toFixed(6)}, {formData.longitude.toFixed(6)})</p>
+                <p className="text-xs text-green-600 mt-1 font-medium">
+                  Báo cáo tọa độ: ({formData.latitude.toFixed(6)},{" "}
+                  {formData.longitude.toFixed(6)})
+                </p>
               )}
             </div>
           </div>
@@ -209,18 +210,18 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-medium text-gray-800 bg-[#FE722D] hover:bg-[#E65C1A] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-medium text-gray-800 bg-[#730003] hover:bg-[#a50006] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading && <Loader size={20} />}
             {isLoading ? "Đang tạo tài khoản..." : "Đăng ký"}
           </button>
 
           <div className="text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-200">
               Đã có tài khoản?{" "}
               <Link
                 href="/login"
-                className="font-bold text-[#FE722D] hover:text-gray-900"
+                className="font-bold text-[#FE722D] hover:text-gray-300"
               >
                 Đăng nhập
               </Link>
@@ -230,9 +231,18 @@ export default function RegisterPage() {
         <AddressMapModal
           isOpen={isMapOpen}
           onClose={() => setIsMapOpen(false)}
-          initialPosition={formData.latitude ? { lat: formData.latitude, lng: formData.longitude } : null}
+          initialPosition={
+            formData.latitude
+              ? { lat: formData.latitude, lng: formData.longitude }
+              : null
+          }
           onConfirm={(loc) => {
-            setFormData({ ...formData, addresses: loc.displayName || `Lat: ${loc.lat}, Lng: ${loc.lng}`, latitude: loc.lat, longitude: loc.lng });
+            setFormData({
+              ...formData,
+              addresses: loc.displayName || `Lat: ${loc.lat}, Lng: ${loc.lng}`,
+              latitude: loc.lat,
+              longitude: loc.lng,
+            });
           }}
         />
       </div>

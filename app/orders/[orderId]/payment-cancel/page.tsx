@@ -64,34 +64,44 @@ export default function PaymentCancelPage() {
           </div>
 
           {isProcessing ? (
-            <LoadingOverlay message="Đang cập nhật trạng thái đơn hàng..." size={50} />
+            <LoadingOverlay
+              message="Đang cập nhật trạng thái đơn hàng..."
+              size={50}
+            />
           ) : (
             <div className="space-y-6">
               {/* Card thông báo chính */}
               <div className="bg-white border-t border-b md:border md:rounded-lg border-gray-200 overflow-hidden">
                 <div className="p-8 text-center">
-                  <div className="mx-auto w-16 h-16 bg-[#FE722D] rounded-full flex items-center justify-center mb-6 border border-gray-100">
+                  <div className="mx-auto w-16 h-16 bg-[#730003] rounded-full flex items-center justify-center mb-6 border border-gray-100">
                     <AlertCircle className="w-8 h-8 text-white" />
                   </div>
 
-                  <h3 className="text-xl font-medium text-[#FE722D] mb-2 uppercase tracking-tighter">
+                  <h3 className="text-xl font-medium text-[#730003] mb-2 uppercase tracking-tighter">
                     Giao dịch đã bị hủy
                   </h3>
                   <p className="text-gray-500 font-medium text-sm leading-relaxed max-w-sm mx-auto">
-                    Bạn đã dừng quá trình thanh toán. Đừng lo lắng, đơn hàng vẫn được lưu lại trong hệ thống của THE GABO.
+                    Bạn đã dừng quá trình thanh toán. Đừng lo lắng, đơn hàng vẫn
+                    được lưu lại trong hệ thống của THE GABO.
                   </p>
                 </div>
 
                 {/* Thông tin đơn hàng - Style giống Table ở trang Cart */}
                 <div className="border-t border-gray-200 bg-gray-50/50 px-6 py-4 space-y-3">
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-500 font-medium uppercase tracking-widest text-[10px]">Mã đơn hàng</span>
+                    <span className="text-gray-500 font-medium uppercase tracking-widest text-[10px]">
+                      Mã đơn hàng
+                    </span>
                     <span className="font-bold text-gray-900">
-                      #{searchParams.get("orderCode") || orderId.slice(-8).toUpperCase()}
+                      #
+                      {searchParams.get("orderCode") ||
+                        orderId.slice(-8).toUpperCase()}
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-500 font-medium uppercase tracking-widest text-[10px]">Trạng thái</span>
+                    <span className="text-gray-500 font-medium uppercase tracking-widest text-[10px]">
+                      Trạng thái
+                    </span>
                     <span className="text-orange-600 font-bold uppercase tracking-tighter text-xs">
                       {searchParams.get("status") || "Đã hủy"}
                     </span>

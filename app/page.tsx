@@ -57,7 +57,10 @@ export default function Home() {
       <main className="pt-0">
         <Banner />
         <div className="" id="menu-section">
-          <FilterTabs text="Tươi ngon mỗi ngày – Đậm đà từng phần" />
+          <FilterTabs
+            text="Món ngon hôm nay"
+            description="Top những món được sinh viên yêu thích nhất tuần qua"
+          />
 
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-16 gap-4">
@@ -79,7 +82,6 @@ export default function Home() {
             </div>
           )}
         </div>
-        <FilterTabs text="Tết sale, lan tỏa vị tết - ăn sập bốn phương" />
         <FoodStorySection />
       </main>
       <Footer />

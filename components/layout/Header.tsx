@@ -6,6 +6,7 @@ import { ShoppingCart, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
+import { useRestaurant } from "@/contexts/RestaurantContext";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function Header() {
@@ -14,6 +15,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const { cartItemsCount } = useCart();
+  const { restaurant } = useRestaurant();
   const router = useRouter();
   const pathname = usePathname();
   const isHomePage = pathname === "/";
@@ -30,7 +32,7 @@ export default function Header() {
   const navItems = [
     { label: "Trang chủ", href: "/" },
     { label: "Menu", href: "#menu-section" },
-    { label: "Liên hệ", href: "#contact-section" },
+    { label: "Liên hệ", href: "/contact" },
     { label: "Giới thiệu", href: "/about" },
   ];
 
@@ -42,10 +44,10 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isHomePage && !isScrolled ? "bg-transparent" : "bg-white"
+        isHomePage && !isScrolled ? "bg-[#631308]" : "bg-white"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 py-2">
+      <div className="max-w-7xl mx-auto px-2">
         <div className="relative h-16 flex items-center justify-between">
           {/* MOBILE MENU BUTTON (LEFT) */}
           <button
@@ -55,24 +57,38 @@ export default function Header() {
             <Menu className="w-6 h-6" />
           </button>
 
-          {/* LEFT - LOGO */}
-          <div className="flex items-center gap-2 group cursor-pointer lg:ml-0 ml-2">
-            <img
-              src="/images/thegabo.png"
-              alt="THE GABO"
-              className="w-10 h-10 lg:w-13 lg:h-13 rounded-full object-cover transition-all duration-300 ease-out"
-            />
+          {/* LEFT - LOGO BOX */}
+          <Link
+            href="/"
+            className="flex items-center gap-3 group cursor-pointer lg:ml-0 ml-2"
+          >
+            {/* Desktop Logo Box */}
+            <div className="hidden lg:flex flex-col items-center justify-center gap-2 bg-[#FBF2D7] p-4 w-32 h-auto">
+              <img
+                src={"/images/logo.png"}
+                alt={restaurant?.name || "THE GABO"}
+                className="w-20 h-20 rounded-full object-cover mt-15"
+              />
+              <p className="text-red-700 text-md font-bold uppercase text-center">
+                {/* {restaurant?.isActive ? "Đang mở cửa" : "Đang đóng cửa"} */}
+                {restaurant?.status === "open"
+                  ? "Đang mở cửa"
+                  : "Đang đóng cửa"}
+              </p>
+            </div>
 
-            <Link
-              href="/"
-              className={`text-lg lg:text-xl font-bold tracking-wide transition-transform duration-300 ease-out
-      group-hover:translate-x-1
-      ${isHomePage && !isScrolled ? "text-white" : "text-gray-900"}
-    `}
-            >
-              THE GABO
-            </Link>
-          </div>
+            {/* Mobile Logo Small */}
+            <div className="lg:hidden flex flex-col items-center gap-1 bg-[#FBF2D7] p-2 w-20 h-auto">
+              <img
+                src={"/images/logo.png"}
+                alt={restaurant?.name || "THE GABO"}
+                className="w-15 h-15 object-cover"
+              />
+              <p className="text-md text-[#730003]">
+                {restaurant?.status === "open" ? "Mở Cửa" : "Đóng cửa"}
+              </p>
+            </div>
+          </Link>
 
           {/* CENTER - NAV (DESKTOP) */}
           <nav className="hidden lg:flex items-center gap-10 text-md">
@@ -161,7 +177,7 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <div className="hidden lg:flex items-center gap-4">
+              <div className="hidden lg:flex items-center gap-4 text-sm">
                 <Link
                   href="/login"
                   className={`relative font-medium transition-colors hover:text-[#FE722D]
@@ -189,7 +205,7 @@ export default function Header() {
                 }`}
               />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#FE722D] text-black text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-[#730003] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                   {cartItemsCount}
                 </span>
               )}
@@ -210,7 +226,7 @@ export default function Header() {
           {/* Menu Drawer */}
           <div className="absolute top-0 left-0 w-[80%] max-w-sm h-full bg-white shadow-2xl p-6 flex flex-col gap-6 animate-in slide-in-from-left duration-300">
             <div className="flex items-center justify-between">
-              <span className="text-xl font-bold text-[#FE722D]">THE GABO</span>
+              <span className="text-xl font-bold text-[#730003]">THE GABO</span>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="p-2 -mr-2 text-gray-500 hover:text-gray-700"

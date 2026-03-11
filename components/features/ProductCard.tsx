@@ -110,7 +110,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         isLoading={isAdding}
       />
 
-      <div className="bg-white rounded-2xl overflow-hidden transition-all duration-300 group">
+      <div className="bg-[#FBF2D7] rounded-2xl overflow-hidden transition-all duration-300 group">
         {/* Product Image */}
         <div className="relative aspect-square overflow-hiddenp-6">
           <Image
@@ -122,41 +122,30 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Product Info */}
-        <div className="p-5 text-center">
-          <h3 className="text-gray-900 font-medium text-2xl mb-1 line-clamp-1">
+        <div className="flex flex-col p-3 sm:p-4 md:p-5 items-center gap-2 sm:gap-3">
+          <h3 className="text-gray-900 font-medium text-base sm:text-lg md:text-xl lg:text-2xl line-clamp-1">
             {product.name}
           </h3>
 
-          {/* Restaurant & Category */}
-          <div className="flex items-center justify-center gap-2 text-md text-gray-500 mb-3">
-            <span>{product.restaurant?.name || "Restaurant"}</span>
-            <span>•</span>
-            <span>{product.category?.name || "Category"}</span>
-          </div>
-
           {/* Sold Count */}
-          <p className="text-md text-gray-400 mb-3">
+          <p className="text-xs sm:text-sm md:text-base text-gray-400">
             Đã bán {product.soldCount} phần
           </p>
-
-          <div className="flex items-center justify-between">
-            {/* Price */}
-            <div className="text-left">
-              <p className="text-gray-900 font-bold text-lg">
-                {product.price.toLocaleString()}Đ
-              </p>
-            </div>
-
-            {/* Add to Cart Button */}
-            <button
-              onClick={handleAddToCart}
-              disabled={isAdding}
-              className="w-20 h-10 bg-[#FE722D] text-white hover:bg-[#E65C1A] flex items-center justify-center transition-colors group/btn disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Add to cart"
-            >
-              <span className="text-xl transition-colors">Thêm</span>
-            </button>
+          <div className="text-left">
+            <p className="text-gray-900 font-bold text-sm sm:text-base md:text-lg">
+              {product.price.toLocaleString()}Đ
+            </p>
           </div>
+
+          {/* Add to Cart Button */}
+          <button
+            onClick={handleAddToCart}
+            disabled={isAdding}
+            className="w-full h-8 sm:h-9 md:h-10 bg-[#7D1919] text-white hover:bg-[#8f1b1b] flex items-center justify-center transition-colors group/btn disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
+            aria-label="Add to cart"
+          >
+            <span className="transition-colors">Thêm</span>
+          </button>
         </div>
       </div>
     </>

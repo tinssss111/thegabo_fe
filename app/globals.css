@@ -19,7 +19,8 @@ body {
   padding: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family:
+  font-family: "Gesco";
+  /* font-family:
     "Red Hat Display",
     "Noto Sans VN",
     sans-serif,
@@ -31,10 +32,10 @@ body {
     Arial,
     "Apple Color Emoji",
     "Segoe UI Emoji",
-    "Segoe UI Symbol";
-  line-height: 1.6;
+    "Segoe UI Symbol"; */
+  /* line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
 }
 
 .red-hat-display {
@@ -78,6 +79,48 @@ body {
   }
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
 }
@@ -90,18 +133,37 @@ body {
   animation: scale-in 0.2s ease-out;
 }
 
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
 /* Custom Loader Animation */
 .loader {
   --b: 8px;
   aspect-ratio: 1;
   border-radius: 50%;
   padding: 1px;
-  background: conic-gradient(#0000 10%, var(--loader-color, #f03355)) content-box;
+  background: conic-gradient(#0000 10%, var(--loader-color, #f03355))
+    content-box;
   -webkit-mask:
     repeating-conic-gradient(#0000 0deg, #000 1deg 20deg, #0000 21deg 36deg),
-    radial-gradient(farthest-side,
+    radial-gradient(
+      farthest-side,
       #0000 calc(100% - var(--b) - 1px),
-      #000 calc(100% - var(--b)));
+      #000 calc(100% - var(--b))
+    );
   -webkit-mask-composite: destination-in;
   mask-composite: intersect;
   animation: loader-spin 1s infinite steps(10);
@@ -132,4 +194,11 @@ body {
 
 .animate-line-loop {
   animation: lineLoop 1.5s infinite linear;
+}
+
+@font-face {
+  font-family: "Gesco";
+  src: url("/fonts/1FTV-HF-Gesco-id0oy5.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
 }

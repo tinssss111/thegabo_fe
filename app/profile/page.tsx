@@ -221,8 +221,8 @@ export default function ProfilePage() {
                         className="w-24 h-24 rounded-full object-cover border-4 border-[#FE722D]/10 shadow-md"
                       />
                     ) : (
-                      <div className="w-24 h-24 rounded-full bg-[#FE722D]/10 flex items-center justify-center border-4 border-white shadow-md">
-                        <span className="text-[#FE722D] font-medium text-2xl ">
+                      <div className="w-24 h-24 rounded-full bg-[#730003]/10 flex items-center justify-center border-4 border-white shadow-md">
+                        <span className="text-[#730003] font-medium text-2xl ">
                           {user?.fullName?.charAt(0)}
                         </span>
                       </div>
@@ -246,7 +246,7 @@ export default function ProfilePage() {
                   <div className="space-y-4">
                     <div className="bg-gray-50 p-3 rounded-lg">
                       <label className="text-md font-medium text-gray-400  flex items-center gap-2 mb-1">
-                        <User className="w-3 h-3 text-[#FE722D]" /> Họ và tên
+                        <User className="w-3 h-3 text-[#730003]" /> Họ và tên
                       </label>
                       {isEditing ? (
                         <input
@@ -263,7 +263,7 @@ export default function ProfilePage() {
                     </div>
                     <div className="bg-gray-50 p-3 rounded-lg">
                       <label className="text-md font-medium text-gray-400  flex items-center gap-2 mb-1">
-                        <Phone className="w-3 h-3 text-[#FE722D]" /> Điện thoại
+                        <Phone className="w-3 h-3 text-[#730003]" /> Điện thoại
                       </label>
                       {isEditing ? (
                         <input
@@ -280,7 +280,7 @@ export default function ProfilePage() {
                     </div>
                     <div className="bg-gray-50 p-3 rounded-lg">
                       <label className="text-md font-medium text-gray-400  flex items-center gap-2 mb-1">
-                        <MapPin className="w-3 h-3 text-[#FE722D]" /> Địa chỉ
+                        <MapPin className="w-3 h-3 text-[#730003]" /> Địa chỉ
                       </label>
                       {isEditing ? (
                         <textarea
@@ -316,7 +316,7 @@ export default function ProfilePage() {
                   {hasActiveFilters && (
                     <button
                       onClick={resetFilters}
-                      className="text-[11px] font-medium text-[#FE722D]  tracking-tighter flex items-center gap-1"
+                      className="text-[11px] font-medium text-[#730003]  tracking-tighter flex items-center gap-1"
                     >
                       <RotateCcw className="w-3 h-3" /> Đặt lại
                     </button>
@@ -372,7 +372,7 @@ export default function ProfilePage() {
                                     className="w-12 h-12 object-cover rounded-md border border-gray-100"
                                   />
                                   {order.orderItems.length > 1 && (
-                                    <span className="absolute -top-1.5 -right-1.5 bg-[#FE722D] text-white text-sm w-4 h-4 flex items-center justify-center font-medium rounded-full border border-white">
+                                    <span className="absolute -top-1.5 -right-1.5 bg-[#730003] text-white text-sm w-4 h-4 flex items-center justify-center font-medium rounded-full border border-white">
                                       {order.orderItems.length - 1}
                                     </span>
                                   )}
@@ -406,7 +406,7 @@ export default function ProfilePage() {
                                 onClick={() =>
                                   router.push(`/orders/${order._id}`)
                                 }
-                                className="p-2 text-gray-300 hover:text-[#FE722D] transition-colors"
+                                className="p-2 text-gray-300 hover:text-[#730003] transition-colors"
                               >
                                 <Eye className="w-5 h-5" />
                               </button>
@@ -434,7 +434,7 @@ export default function ProfilePage() {
                     <button
                       disabled={page === totalPages}
                       onClick={() => setPage((p) => p + 1)}
-                      className="px-3 py-1 text-md font-medium  tracking-tighter bg-[#FE722D] text-white rounded hover:bg-[#e0561c] shadow-sm shadow-orange-100 disabled:opacity-20 transition-all"
+                      className="px-3 py-1 text-md font-medium  tracking-tighter bg-[#730003] text-white rounded hover:bg-[#a00005] shadow-sm shadow-orange-100 disabled:opacity-20 transition-all"
                     >
                       Tiếp
                     </button>

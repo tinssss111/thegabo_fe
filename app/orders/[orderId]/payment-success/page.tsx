@@ -7,7 +7,13 @@ import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { paymentService } from "@/services/paymentService";
 import { pendingOrderStorage } from "@/lib/pendingOrderStorage";
-import { CheckCircle, XCircle, ChevronLeft, ShoppingBag, ReceiptText } from "lucide-react";
+import {
+  CheckCircle,
+  XCircle,
+  ChevronLeft,
+  ShoppingBag,
+  ReceiptText,
+} from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import confetti from "canvas-confetti";
@@ -67,14 +73,14 @@ export default function PaymentSuccessPage() {
         angle: 60,
         spread: 55,
         origin: { x: 0 },
-        colors: ["#FE722D", "#D6E5BE", "#FFFFFF"],
+        colors: ["#730003", "#D6E5BE", "#FFFFFF"],
       });
       confetti({
         particleCount: 2,
         angle: 120,
         spread: 55,
         origin: { x: 1 },
-        colors: ["#FE722D", "#D6E5BE", "#FFFFFF"],
+        colors: ["#730003", "#D6E5BE", "#FFFFFF"],
       });
 
       if (Date.now() < end) {
@@ -135,7 +141,8 @@ export default function PaymentSuccessPage() {
                     Thanh toán hoàn tất
                   </h3>
                   <p className="text-gray-500 text-sm max-w-xs mx-auto leading-relaxed">
-                    Cảm ơn bạn đã lựa chọn THE GABO. Đơn hàng của bạn đã được xác nhận và đang chờ xử lý.
+                    Cảm ơn bạn đã lựa chọn THE GABO. Đơn hàng của bạn đã được
+                    xác nhận và đang chờ xử lý.
                   </p>
                 </div>
 
@@ -143,15 +150,25 @@ export default function PaymentSuccessPage() {
                 {paymentInfo && (
                   <div className="border-t border-gray-100 bg-gray-50/30 px-8 py-6 space-y-4">
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-400 font-medium uppercase tracking-widest text-[10px]">Mã đơn hàng</span>
-                      <span className="font-bold text-gray-900">#{paymentInfo.order.orderNumber}</span>
+                      <span className="text-gray-400 font-medium uppercase tracking-widest text-[10px]">
+                        Mã đơn hàng
+                      </span>
+                      <span className="font-bold text-gray-900">
+                        #{paymentInfo.order.orderNumber}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center text-sm border-t border-gray-100 pt-4">
-                      <span className="text-gray-400 font-medium uppercase tracking-widest text-[10px]">Tổng thanh toán</span>
-                      <span className="font-bold text-gray-900 text-lg">{paymentInfo.order.total.toLocaleString()}đ</span>
+                      <span className="text-gray-400 font-medium uppercase tracking-widest text-[10px]">
+                        Tổng thanh toán
+                      </span>
+                      <span className="font-bold text-gray-900 text-lg">
+                        {paymentInfo.order.total.toLocaleString()}đ
+                      </span>
                     </div>
                     <div className="flex justify-between items-center text-sm border-t border-gray-100 pt-4">
-                      <span className="text-gray-400 font-medium uppercase tracking-widest text-[10px]">Trạng thái</span>
+                      <span className="text-gray-400 font-medium uppercase tracking-widest text-[10px]">
+                        Trạng thái
+                      </span>
                       <span className="text-green-600 font-bold uppercase tracking-tighter text-xs flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
                         Đã thanh toán
@@ -165,7 +182,7 @@ export default function PaymentSuccessPage() {
               <div className="flex flex-col gap-3">
                 <button
                   onClick={() => router.push(`/orders/${orderId}`)}
-                  className="w-full py-4 bg-[#FE722D] text-white font-medium text-lg hover:bg-[#e05d1b] transition-colors uppercase tracking-tighter flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-[#730003] text-white font-medium text-lg hover:bg-[#a50006] transition-colors uppercase tracking-tighter flex items-center justify-center gap-2"
                 >
                   <ReceiptText className="w-5 h-5" />
                   Theo dõi đơn hàng
@@ -182,11 +199,19 @@ export default function PaymentSuccessPage() {
 
               {/* Thông tin vận chuyển tinh gọn */}
               <div className="bg-gray-100 p-5">
-                <h4 className="text-xl font-medium text-black mb-3">Thông tin dự kiến</h4>
+                <h4 className="text-xl font-medium text-black mb-3">
+                  Thông tin dự kiến
+                </h4>
                 <ul className="text-md text-black space-y-2">
-                  <li className="flex font-medium items-start gap-2">• Nhà hàng đang chuẩn bị món ăn cho bạn</li>
-                  <li className="flex font-medium items-start gap-2">• Thời gian giao hàng dự kiến: 30 - 45 phút</li>
-                  <li className="flex font-medium items-start gap-2">• Nhân viên sẽ gọi điện khi món ăn gần đến nơi</li>
+                  <li className="flex font-medium items-start gap-2">
+                    • Nhà hàng đang chuẩn bị món ăn cho bạn
+                  </li>
+                  <li className="flex font-medium items-start gap-2">
+                    • Thời gian giao hàng dự kiến: 30 - 45 phút
+                  </li>
+                  <li className="flex font-medium items-start gap-2">
+                    • Nhân viên sẽ gọi điện khi món ăn gần đến nơi
+                  </li>
                 </ul>
               </div>
             </div>

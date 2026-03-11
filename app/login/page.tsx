@@ -51,20 +51,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-[#551B13] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <Link href="/">
           <div className="flex items-center justify-center">
             <img
-              src="/images/thegabo.png"
+              src="/images/logo.png"
               alt=""
-              className="w-16 h-16 lg:w-13 lg:h-13 mr-3"
+              className="w-20 h-20 lg:w-35 lg:h-35 mr-3"
             />
-            <h1 className="text-center text-4xl font-bold text-gray-900 mb-2">
-              THE GABO
-            </h1>
           </div>
-          <h2 className="text-center text-md font-medium text-gray-700 mt-5">
+          <h2 className="text-center text-md font-medium text-white mt-5">
             Đăng nhập vào tài khoản của bạn
           </h2>
         </Link>
@@ -80,7 +77,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-white mb-1"
               >
                 Email
               </label>
@@ -100,7 +97,7 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-white mb-1"
               >
                 Mật khẩu
               </label>
@@ -121,8 +118,8 @@ export default function LoginPage() {
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <Link
-                href="/forgot-password"
-                className="font-medium text-gray-700 hover:text-gray-900"
+                href="#"
+                className="font-medium text-white hover:text-gray-300"
               >
                 Quên mật khẩu ?
               </Link>
@@ -132,18 +129,18 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-medium text-gray-800 bg-[#FE722D] hover:bg-[#E65C1A] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="group relative w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-sm font-medium text-gray-800 bg-[#730003] hover:bg-[#a50006] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading && <Loader size={20} />}
             {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
           </button>
 
           <div className="text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-200">
               Bạn không có tài khoản ?{" "}
               <Link
                 href="/register"
-                className="font-bold text-[#FE722D] hover:text-gray-900"
+                className="font-bold text-[#FE722D] hover:text-gray-300"
               >
                 Đăng ký
               </Link>

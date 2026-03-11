@@ -220,7 +220,7 @@ export default function OrderDetailPage() {
                 </div>
 
                 {/* Arrow Indicator (Desktop) */}
-                <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md text-[#FE722D]">
+                <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-white p-2 rounded-full shadow-md text-[#730003]">
                   <div className="animate-pulse">
                     <Truck className="w-6 h-6" />
                   </div>
@@ -281,7 +281,7 @@ export default function OrderDetailPage() {
             {/* SECTION 3: Order Summary */}
             <div className="bg-white border border-gray-100 p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-6 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#FE722D]" />
+                <FileText className="w-5 h-5 text-[#730003]" />
                 Tóm tắt đơn hàng
               </h3>
               <div className="space-y-6">
@@ -322,7 +322,7 @@ export default function OrderDetailPage() {
                               {item.selectedOptions.map((opt, i) => (
                                 <span
                                   key={i}
-                                  className="text-xs text-[#FE722D] font-medium"
+                                  className="text-xs text-[#730003] font-medium"
                                 >
                                   + {opt.addonName}({opt.price.toLocaleString()}
                                   đ)
@@ -345,7 +345,7 @@ export default function OrderDetailPage() {
             {/* SECTION 4: Order Info & Actions */}
             <div className="bg-white border border-gray-100 p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-6 flex items-center gap-2">
-                <CreditCard className="w-5 h-5 text-[#FE722D]" />
+                <CreditCard className="w-5 h-5 text-[#730003]" />
                 Thanh toán
               </h3>
 
@@ -381,14 +381,14 @@ export default function OrderDetailPage() {
                     <span className="font-medium text-lg text-gray-900">
                       Tổng thanh toán
                     </span>
-                    <span className="text-2xl font-bold text-[#FE722D]">
+                    <span className="text-2xl font-bold text-[#730003]">
                       {order.total.toLocaleString()}đ
                     </span>
                   </div>
 
                   <div className="flex items-center gap-3">
                     <div className="">
-                      <CreditCard className="w-5 h-5 text-[#FE722D]" />
+                      <CreditCard className="w-5 h-5 text-[#730003]" />
                     </div>
                     <div>
                       <p className="font-medium uppercase text-sm">

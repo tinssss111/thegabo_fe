@@ -30,6 +30,9 @@ export interface CartItem {
 export interface Restaurant {
   _id: string;
   name: string;
+  logo?: string;
+  isActive?: boolean;
+  status?: string;
 }
 
 export interface Cart {

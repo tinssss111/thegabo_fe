@@ -6,7 +6,7 @@ interface LoaderProps {
 
 export default function Loader({
   size = 50,
-  color = "#FE722D",
+  color = "#730003",
   className = "",
 }: LoaderProps) {
   return (

@@ -94,7 +94,7 @@ export default function CartPage() {
         <Header />
         <main className="flex-1 flex items-center justify-center py-16">
           <div className="text-center px-4">
-            <ShoppingBag className="w-20 h-20 mx-auto text-[#FE722D] mb-4" />
+            <ShoppingBag className="w-20 h-20 mx-auto text-[#730003] mb-4" />
             <h2 className="text-2xl font-medium text-gray-800 mb-2">
               Giỏ hàng của bạn trống
             </h2>
@@ -109,7 +109,7 @@ export default function CartPage() {
             </Link>
             <Link
               href="/"
-              className="inline-block px-6 py-3 bg-[#FE722D] text-white hover:bg-[#E65C1A] transition-colors"
+              className="inline-block px-6 py-3 bg-[#730003] text-white hover:bg-[#a00005] transition-colors"
             >
               Quay lại Menu
             </Link>
@@ -290,14 +290,14 @@ export default function CartPage() {
 
               <div className="text-center mb-6 border-t border-dashed border-gray-200 pt-4">
                 <p className="text-gray-600 mb-1">Tổng thanh toán</p>
-                <p className="text-2xl md:text-3xl font-bold text-[#FE722D]">
+                <p className="text-2xl md:text-3xl font-bold text-[#730003]">
                   {totalAmount.toLocaleString()}đ
                 </p>
               </div>
 
               <button
                 onClick={() => router.push("/checkout")}
-                className="w-full max-w-md mx-auto block py-3 md:py-4 bg-[#FE722D] text-white font-medium text-base md:text-lg rounded-lg md:rounded-none hover:bg-[#e05d1b] transition-colors"
+                className="w-full max-w-md mx-auto block py-3 md:py-4 bg-[#730003] text-white font-medium text-base md:text-lg rounded-lg md:rounded-none hover:bg-[#a00005] transition-colors"
               >
                 Thanh toán ngay
               </button>

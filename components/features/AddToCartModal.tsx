@@ -52,8 +52,10 @@ export default function AddToCartModal({
       <div className="bg-white rounded-t-3xl sm:rounded-xl shadow-2xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] flex flex-col animate-slide-up sm:animate-scale-in">
         {/* Header with Close Button */}
         <div className="relative bg-white border-b border-gray-100">
-          <div className="flex items-center justify-between p-4">
-            <h2 className="text-lg font-medium text-gray-900">Thêm món vào giỏ hàng</h2>
+          <div className="flex items-center justify-between p-3 sm:p-4">
+            <h2 className="text-lg font-medium text-gray-900">
+              Thêm món vào giỏ hàng
+            </h2>
             <button
               onClick={onClose}
               className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
@@ -66,9 +68,9 @@ export default function AddToCartModal({
         {/* Content */}
         <div className="overflow-y-auto flex-1">
           {/* Product Info */}
-          <div className="p-4 border-b border-gray-100">
-            <div className="flex gap-3">
-              <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
+          <div className="p-3 sm:p-4 border-b border-gray-100">
+            <div className="flex gap-2 sm:gap-3">
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden shrink-0">
                 <Image
                   src={food.image}
                   alt={food.name}
@@ -77,13 +79,13 @@ export default function AddToCartModal({
                 />
               </div>
               <div className="flex-1">
-                <h3 className="font-medium text-gray-900 mb-1 line-clamp-2">
+                <h3 className="font-medium text-gray-900 mb-1 line-clamp-2 text-sm sm:text-base">
                   {food.name}
                 </h3>
                 <p className="text-xs text-gray-500 mb-1">
                   {food.soldCount}+ đã bán
                 </p>
-                <p className="text-base font-bold text-[#FE722D]">
+                <p className="text-sm sm:text-base font-bold text-[#730003]">
                   {food.price.toLocaleString()}đ
                 </p>
               </div>
@@ -102,7 +104,7 @@ export default function AddToCartModal({
                   <button
                     onClick={() => handleQuantityChange(1)}
                     disabled={quantity >= 20}
-                    className="w-8 h-8 rounded border border-[#FE722D] bg-[#FE722D] flex items-center justify-center text-white hover:bg-[#FF6B6B] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-8 h-8 rounded border border-[#730003] bg-[#a60207] flex items-center justify-center text-white hover:bg-[#5a0002] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -110,7 +112,6 @@ export default function AddToCartModal({
               </div>
             </div>
           </div>
-
 
           {/* Addon Selector */}
           <div className="p-4">
@@ -127,7 +128,7 @@ export default function AddToCartModal({
           <button
             onClick={handleAddToCart}
             disabled={isLoading}
-            className="w-full bg-[#FE722D] hover:bg-[#E65C1A] text-white font-medium py-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full bg-[#730003] hover:bg-[#a60207] text-white font-medium py-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>

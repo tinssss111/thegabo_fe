@@ -21,9 +21,9 @@ export default function ProductGrid({
   }
 
   return (
-    <section className="w-full bg-white py-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-6">
+    <section className="w-full bg-[#FBF2D7] py-4 sm:py-6 md:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {products.map((product) => (
             <ProductCard
               key={product._id}
