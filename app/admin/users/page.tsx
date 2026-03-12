@@ -426,7 +426,7 @@ export default function UsersManagement() {
                 <button
                   onClick={() => setPage(page - 1)}
                   disabled={pagination.page <= 1}
-                  className="px-3 py-1.5 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-200 rounded-lg"
+                  className="px-3 py-1.5 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-200"
                 >
                   Trước
                 </button>
@@ -438,9 +438,9 @@ export default function UsersManagement() {
                     <button
                       key={p}
                       onClick={() => setPage(p)}
-                      className={`min-w-[32px] px-2 py-1.5 text-sm font-bold border rounded-lg transition-colors ${
+                      className={`min-w-[32px] px-2 py-1.5 text-sm font-bold border transition-colors ${
                         page === p
-                          ? "bg-[#FE722D] text-white border-[#FE722D]"
+                          ? "bg-[#113A28] text-white border-[#113A28]"
                           : "bg-white border-transparent hover:border-gray-200 text-gray-600"
                       }`}
                     >
@@ -451,7 +451,7 @@ export default function UsersManagement() {
                 <button
                   onClick={() => setPage(page + 1)}
                   disabled={pagination.page >= pagination.totalPages}
-                  className="px-3 py-1.5 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-200 rounded-lg"
+                  className="px-3 py-1.5 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-200"
                 >
                   Sau
                 </button>

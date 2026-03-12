@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { orderService } from "@/services/orderService";
 import { userService } from "@/services/userService";
 import { restaurantService } from "@/services/restaurantService";
+import { exportService } from "@/services/exportService";
 import Loader from "@/components/ui/Loader";
 import ProcessSteps from "@/components/ui/ProcessSteps";
 import {
@@ -22,6 +23,7 @@ import {
   FileText,
   Truck,
   X,
+  Download,
 } from "lucide-react";
 import { Order } from "@/types/order";
 
@@ -84,6 +86,9 @@ export default function OrdersManagement() {
     null,
   );
   const [enrichedUser, setEnrichedUser] = useState<any | null>(null);
+
+  // Export states
+  const [isExporting, setIsExporting] = useState(false);
 
   // Fetch orders
   const fetchOrders = async () => {
@@ -219,6 +224,30 @@ export default function OrdersManagement() {
       alert(err.message || "Lỗi khi cập nhật trạng thái");
     } finally {
       setIsUpdating(false);
+    }
+  };
+
+  const handleExportToExcel = async () => {
+    try {
+      setIsExporting(true);
+      // Fetch all orders without pagination
+      const response = await orderService.getAdminOrders({
+        limit: 10000,
+        page: 1,
+        sortBy: "createdAt",
+        order: "desc",
+      });
+
+      if (response.success && response.data && response.data.length > 0) {
+        exportService.exportOrdersToExcel(response.data as Order[]);
+      } else {
+        alert("Không có dữ liệu đơn hàng để xuất");
+      }
+    } catch (err: any) {
+      alert(err.message || "Lỗi khi xuất dữ liệu");
+      console.error(err);
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -367,6 +396,22 @@ export default function OrdersManagement() {
                 className="group-active:rotate-180 transition-transform duration-500"
               />
               <span className="text-sm font-medium sm:inline">Đặt lại</span>
+            </button>
+
+            {/* Nút Xuất Excel */}
+            <button
+              onClick={handleExportToExcel}
+              disabled={isExporting}
+              className="px-4 py-3 bg-cyan-600 text-white hover:bg-cyan-700 disabled:bg-gray-400 flex items-center gap-2 justify-center transition-all shadow-sm group"
+              title="Xuất dữ liệu ra Excel"
+            >
+              <Download
+                size={16}
+                className={isExporting ? "animate-bounce" : ""}
+              />
+              <span className="text-sm font-medium sm:inline">
+                {isExporting ? "Đang xuất..." : "Xuất Excel"}
+              </span>
             </button>
           </div>
         </div>

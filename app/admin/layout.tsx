@@ -133,7 +133,7 @@ export default function AdminLayout({
           </div>
 
           <div className="px-6 mb-8">
-            <div className="flex items-center justify-between border border-gray-100 bg-white px-3 py-2.5 rounded-xl shadow-sm cursor-pointer hover:border-gray-200 transition-colors">
+            <div className="flex items-center justify-between border border-gray-100 bg-white px-3 py-2.5 shadow-sm cursor-pointer hover:border-gray-200 transition-colors">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full border flex items-center justify-center">
                   <svg
@@ -180,7 +180,7 @@ export default function AdminLayout({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all ${
+                  className={`flex items-center gap-3 px-4 py-3 text-sm transition-all ${
                     isActive
                       ? "bg-[#113A28] text-white"
                       : "text-gray-500 hover:bg-gray-100/50 hover:text-gray-900"

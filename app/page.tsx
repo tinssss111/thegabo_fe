@@ -63,7 +63,7 @@ export default function Home() {
           />
 
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-16 gap-4">
+            <div className="flex flex-col bg-[#FBF2D7] items-center justify-center py-16 gap-4">
               <Loader size={60} />
               <p className="text-gray-600 font-medium text-lg">
                 Đang tải món ngon...
